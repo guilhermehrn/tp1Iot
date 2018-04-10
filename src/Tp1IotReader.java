@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tp1iot.src;
+
 
 import com.alien.enterpriseRFID.reader.*;
 import com.alien.enterpriseRFID.tags.*;
