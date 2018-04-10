@@ -16,13 +16,85 @@ import com.alien.enterpriseRFID.tags.*;
  */
 public class Tp1IotReader {
     
-    public String ipLeitor = "150.164.10.41";
-    public int portaLeitor = 23;
-    public String usernameLeitor ="alien";
-    public String passWordLeitor = "password";
-    public String caminholog = "/";
+    private String ipLeitor = "150.164.10.41";
+    private int portaLeitor = 23;
+    private String usernameLeitor ="alien";
+    private String passWordLeitor = "password";
+    private String caminholog = "/";
     
-   
+    
+
+    /**
+     * @return the ipLeitor
+     */
+    public String getIpLeitor() {
+        return ipLeitor;
+    }
+
+    /**
+     * @param ipLeitor the ipLeitor to set
+     */
+    public void setIpLeitor(String ipLeitor) {
+        this.ipLeitor = ipLeitor;
+    }
+
+    /**
+     * @return the portaLeitor
+     */
+    public int getPortaLeitor() {
+        return portaLeitor;
+    }
+
+    /**
+     * @param portaLeitor the portaLeitor to set
+     */
+    public void setPortaLeitor(int portaLeitor) {
+        this.portaLeitor = portaLeitor;
+    }
+
+    /**
+     * @return the usernameLeitor
+     */
+    public String getUsernameLeitor() {
+        return usernameLeitor;
+    }
+
+    /**
+     * @param usernameLeitor the usernameLeitor to set
+     */
+    public void setUsernameLeitor(String usernameLeitor) {
+        this.usernameLeitor = usernameLeitor;
+    }
+
+    /**
+     * @return the passWordLeitor
+     */
+    public String getPassWordLeitor() {
+        return passWordLeitor;
+    }
+
+    /**
+     * @param passWordLeitor the passWordLeitor to set
+     */
+    public void setPassWordLeitor(String passWordLeitor) {
+        this.passWordLeitor = passWordLeitor;
+    }
+
+    /**
+     * @return the caminholog
+     */
+    public String getCaminholog() {
+        return caminholog;
+    }
+
+    /**
+     * @param caminholog the caminholog to set
+     */
+    public void setCaminholog(String caminholog) {
+        this.caminholog = caminholog;
+    }
+
+       
     /**
      * Conecta ao leitor de forma ativa e depois tertorna uma lista de tags lida
      * @return retorna um lista do tipo tag
@@ -34,9 +106,9 @@ public class Tp1IotReader {
         //reader.setConnection("COM1");
 
         // To connect to a networked reader instead, use the following:
-        reader.setConnection(this.ipLeitor, this.portaLeitor);
-        reader.setUsername(this.usernameLeitor);
-        reader.setPassword(this.passWordLeitor);
+        reader.setConnection(this.getIpLeitor(), this.getPortaLeitor());
+        reader.setUsername(this.getUsernameLeitor());
+        reader.setPassword(this.getPassWordLeitor());
 
         // Open a connection to the reader
         reader.open();
@@ -82,6 +154,10 @@ public class Tp1IotReader {
     public void gravarLog(){
         //TODO
     }
+    
+    public void pararLeitoraPassiva(){
+        //TODO
+    }
 
 //    
 //    /**
@@ -99,5 +175,4 @@ public class Tp1IotReader {
 //        }
 //
 //    }
-
 }

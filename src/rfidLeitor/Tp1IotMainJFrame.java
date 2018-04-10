@@ -1,7 +1,8 @@
 package rfidLeitor;
 
 import com.alien.enterpriseRFID.reader.AlienReaderException;
-import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 
 
@@ -247,8 +248,18 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonPararActionPerformed
 
     private void buttonConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConfigActionPerformed
-        // TODO add your handling code here:
-        
+//      
+    DialogConfig a = new DialogConfig(this, true);
+    a.setVisible(true);
+    a.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+//JFrame.setDefaultLookAndFeelDecorated(true);
+//    JFrame frame = new JFrame();
+//    frame.setTitle("My First Swing Application");
+//    JLabel label = new JLabel("Welcome");
+//    frame.add(label);
+//    frame.pack();
+//    frame.setVisible(true);
+
     }//GEN-LAST:event_buttonConfigActionPerformed
 
     /**
