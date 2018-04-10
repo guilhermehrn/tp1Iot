@@ -1,3 +1,5 @@
+package rfidLeitor;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -18,6 +20,7 @@ public class Tp1IotReader {
     public int portaLeitor = 23;
     public String usernameLeitor ="alien";
     public String passWordLeitor = "password";
+    public String caminholog = "/";
     
    
     /**
@@ -25,7 +28,7 @@ public class Tp1IotReader {
      * @return retorna um lista do tipo tag
      * @throws AlienReaderException 
      */
-    public Tag[] lerAtivamente() throws AlienReaderException{
+    public void lerAtivamente() throws AlienReaderException{
         
         AlienClass1Reader reader = new AlienClass1Reader();
         //reader.setConnection("COM1");
@@ -41,7 +44,7 @@ public class Tp1IotReader {
         // Ask the reader to read tags and print them
         Tag tagList[] = reader.getTagList();
         
-        /*
+       
         if (tagList == null) {
             System.out.println("No Tags Found");
         } else {
@@ -56,42 +59,45 @@ public class Tp1IotReader {
                 );
             }
         }
-
-        */
+        
+       
         // Close the connection
         reader.close();
         
-        return tagList;
+       // return tagList;
         
     }
+    
     
     
     public void lerPassivamente(){
-        
+        //TODO
     }
     
     public Tp1IotReader()  {
-        
             
-        
     }
-
 
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        try {
-            //Tp1Inew Tp1IotReader();
-            
-            Tp1IotReader read = new Tp1IotReader();
-            read.lerAtivamente();
-            
-        } catch (AlienReaderException e) {
-            System.out.println("Error: " + e.toString());
-        }
-
+    public void gravarLog(){
+        //TODO
     }
+
+//    
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String[] args) {
+//        try {
+//            //Tp1Inew Tp1IotReader();
+//            
+//            Tp1IotReader read = new Tp1IotReader();
+//            read.lerAtivamente();
+//            
+//        } catch (AlienReaderException e) {
+//            System.out.println("Error: " + e.toString());
+//        }
+//
+//    }
 
 }
