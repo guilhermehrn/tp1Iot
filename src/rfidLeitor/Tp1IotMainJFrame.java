@@ -24,6 +24,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
      */
     public Tp1IotMainJFrame() {
         initComponents();
+        
     }
 
     /**
@@ -89,6 +90,9 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 
         tableData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {"000",  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0)},
+                {"000",  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0)},
+                {"000",  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0)},
                 {"000",  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0)}
             },
             new String [] {
@@ -224,15 +228,20 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     private void buttonInciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInciarActionPerformed
         // TODO add your handling code here:
         try {
-            //Tp1Inew Tp1IotReader();
+        	Tp1IotReader reader = new Tp1IotReader();
+            reader.lerAtivamente();
+            Item[] tags = reader.getResults();
             
-            Tp1IotReader read = new Tp1IotReader();
-            read.lerAtivamente();
-            
+            int numTags = reader.numTags();
+            int i = 0;
+            for(Item tag : tags) {
+            	tableData.setValueAt(tag.id, i, 0);
+            	tableData.setValueAt(tag.reads, i, 4);
+            	i++;
+            }
         } catch (AlienReaderException e) {
             System.out.println("Error: " + e.toString());
         }
-        System.out.println("Aqui vai");
     }//GEN-LAST:event_buttonInciarActionPerformed
 
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed

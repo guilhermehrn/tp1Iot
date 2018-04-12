@@ -20,10 +20,12 @@ public class Tp1IotReader {
     private int portaLeitor = 23;
     private String usernameLeitor ="alien";
     private String passWordLeitor = "password";
-    private String caminholog = "/";
+    private String caminholog = "/tmp";
     
+    private int readTime = 5; // segundos
+    private Item tags[];
+    private int numTags;
     
-
     /**
      * @return the ipLeitor
      */
@@ -94,7 +96,6 @@ public class Tp1IotReader {
         this.caminholog = caminholog;
     }
 
-       
     /**
      * Conecta ao leitor de forma ativa e depois tertorna uma lista de tags lida
      * @return retorna um lista do tipo tag
@@ -112,35 +113,72 @@ public class Tp1IotReader {
 
         // Open a connection to the reader
         reader.open();
-
-        // Ask the reader to read tags and print them
-        Tag tagList[] = reader.getTagList();
         
-       
-        if (tagList == null) {
-            System.out.println("No Tags Found");
-        } else {
-            System.out.println("Tag(s) found:");
-            for (int i = 0; i < tagList.length; i++) {
-                Tag tag = tagList[i];
-                System.out.println("ID:" + tag.getTagID()
-                        + ", Discovered:" + tag.getDiscoverTime()
-                        + ", Last Seen:" + tag.getRenewTime()
-                        + ", Antenna:" + tag.getAntenna()
-                        + ", Reads:" + tag.getRenewCount()
-                );
-            }
-        }
-        
-       
-        // Close the connection
+        // Set string format
+ 		String customFormatStr = "Tag:${TAGID}, Last:${MSEC2}, RSSI=${RSSI}, Speed:${SPEED}, Reads:${COUNT}";
+ 		reader.setTagListFormat(AlienClass1Reader.CUSTOM_FORMAT);
+ 		reader.setTagListCustomFormat(customFormatStr);
+ 		reader.setNotifyTrigger("OFF");
+ 		
+ 		// Read tags
+		String commandOut = reader.doReaderCommand("t");
+		String str = reader.getReaderReply();
+		
+		// Get ids and init values
+		String lines[] = str.split("\n");
+		numTags = lines.length;
+		tags = new Item[numTags];
+		
+		for(int i = 0; i < numTags; i++) {
+			tags[i] = new Item(lines[i]);
+		}
+		
+		// Read tags for X seconds
+		long startTime = System.currentTimeMillis();
+		while(false||(System.currentTimeMillis()-startTime)<5000) {
+			// Read
+			commandOut = reader.doReaderCommand("t");
+			str = reader.getReaderReply();
+			
+			// Get ids
+			String items[] = str.split("\n");
+			for(String tag : items) {
+				String fields[] = tag.split(", ");
+				String id = fields[0].substring(4);
+				
+				for(int i = 0; i < numTags; i++) {
+					if(tags[i].id.equals(id)) {
+						tags[i].reads++;
+					}
+				}
+			}
+		}
+		
+		// Calc Reads/sec
+		for(Item tag : tags) {
+			tag.reads = tag.reads/readTime;
+		}
+		
+		// Results
+		/*for(int i = 0; i < numTags; i++) {
+			System.out.print(tags[i].id + ", " + tags[i].rssi + ", " + tags[i].speed + ", " + tags[i].reads + "\n");
+		}*/
+		
+		// Set string format back
+		reader.setTagListFormat(AlienClass1Reader.XML_FORMAT);
+		
+		// Close the connection
         reader.close();
-        
-       // return tagList;
         
     }
     
+    public Item[] getResults() {
+    	return tags;
+    }
     
+    public int numTags() {
+    	return numTags;
+    }
     
     public void lerPassivamente(){
         //TODO
@@ -158,21 +196,5 @@ public class Tp1IotReader {
     public void pararLeitoraPassiva(){
         //TODO
     }
-
-//    
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String[] args) {
-//        try {
-//            //Tp1Inew Tp1IotReader();
-//            
-//            Tp1IotReader read = new Tp1IotReader();
-//            read.lerAtivamente();
-//            
-//        } catch (AlienReaderException e) {
-//            System.out.println("Error: " + e.toString());
-//        }
-//
-//    }
 }
+
