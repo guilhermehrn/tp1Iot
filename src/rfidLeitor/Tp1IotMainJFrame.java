@@ -30,7 +30,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     /**
      * Creates new form tp1IotMainJFrame
      */
-    public Tp1IotMainJFrame() {
+    public Tp1IotMainJFrame() throws AlienReaderException {
         initComponents();
     }
 
@@ -41,7 +41,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws AlienReaderException {
 
         jInternalFrame1 = new javax.swing.JInternalFrame();
         labelModo = new javax.swing.JLabel();
@@ -77,7 +77,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 
         labelModo.setText("Modo:");
 
-        comboBoxModo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "autonomo" }));
+        comboBoxModo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Autônomo" }));
         comboBoxModo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxModoActionPerformed(evt);
@@ -96,9 +96,11 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         this.reader.setEfeito("Nenhum");
         this.reader.setModo("Ativo");
 
-        labelTimeOut.setText("Time out");
+        labelTimeOut.setText("Time out (s)");
+        
+        this.reader.setTimeout(0);
 
-        textfieldTimeOut.setToolTipText("");
+        textfieldTimeOut.setText("60");
         textfieldTimeOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textfieldTimeOutActionPerformed(evt);
@@ -228,8 +230,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     private void comboBoxModoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxModoActionPerformed
     	
     	reader.setModo(comboBoxModo.getSelectedItem().toString());
-
-    }//GEN-LAST:event_comboBoxModoActionPerformed
+    }
 
     private void comboBoxEfeitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxEfeitoActionPerformed
     	
@@ -242,25 +243,61 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     	
         try {
         	
-            this.reader.lerAtivamente();
-            Item[] tags = this.reader.getResults();
-            
-            int numTags  = this.reader.numTags();
-            int rowCount = this.model.getRowCount();
-            
-            for (int i = 0; i < rowCount; i++) {
-            	
-            	this.model.removeRow(0);
-            	
-            }
-            
-            this.model.fireTableStructureChanged();
-            
-            for(Item tag : tags) {
-            	
-            	this.model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
-            	
-            }
+        	if (this.comboBoxModo.getSelectedItem().toString() == "Ativo") {
+        		
+        		this.reader.lerAtivamente();
+                Item[] tags = this.reader.getResults();
+                
+                int numTags  = this.reader.numTags();
+                int rowCount = this.model.getRowCount();
+                
+                for (int i = 0; i < rowCount; i++) {
+                	
+                	this.model.removeRow(0);
+                	
+                }
+                
+                this.model.fireTableStructureChanged();
+                
+                for(Item tag : tags) {
+                	
+                	this.model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
+                	
+                }
+                
+        	} else {
+        		
+        		long timeout = Long.parseLong(this.textfieldTimeOut.getText());
+        		
+        		if (!this.textfieldTimeOut.getText().isEmpty() &&  timeout > 0) {
+        			
+//        			this.reader.lerPassivamente(Long.parseLong(this.textfieldTimeOut.getText()), this.model);
+        			long startTimeUser = System.currentTimeMillis();
+        			
+        			while ((System.currentTimeMillis() - startTimeUser) < (timeout * 1000)){
+        				
+        				this.reader.lerAtivamente();
+                        Item[] tags = this.reader.getResults();
+                        
+                        int numTags  = this.reader.numTags();
+                        int rowCount = this.model.getRowCount();
+                        
+                        for (int i = 0; i < rowCount; i++) {
+                        	
+                        	this.model.removeRow(0);
+                        	
+                        }
+                        
+                        for(Item tag : tags) {
+                        	
+                        	this.model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
+                        	
+                        }
+                        
+                        this.model.fireTableStructureChanged();
+        			}
+        		}
+        	}
             
         } catch (AlienReaderException e) {
         	
@@ -268,13 +305,13 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonInciarActionPerformed
 
-    private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonCancelActionPerformed
+    private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {
+    	
+    }
 
-    private void textfieldTimeOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textfieldTimeOutActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textfieldTimeOutActionPerformed
+    private void textfieldTimeOutActionPerformed(java.awt.event.ActionEvent evt) {
+    		
+    }
 
     private void buttonPararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPararActionPerformed
         // TODO add your handling code here:
