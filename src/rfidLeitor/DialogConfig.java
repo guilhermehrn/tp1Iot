@@ -53,6 +53,16 @@ public class DialogConfig extends javax.swing.JDialog {
     public int getReturnStatus() {
         return returnStatus;
     }
+    
+    public String getLogDir(){
+    	
+    	return jTextField5.getText();
+    }
+    
+    public void setLogDir(String t) {
+    	
+    	jTextField5.setText(t);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -210,7 +220,7 @@ public class DialogConfig extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
         getContentPane().add(jPasswordField1, gridBagConstraints);
 
-        jTextField5.setText("/home/");
+        jTextField5.setText("/tmp/");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 11;

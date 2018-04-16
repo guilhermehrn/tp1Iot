@@ -1,5 +1,14 @@
 package rfidLeitor;
 
+
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
+import java.util.Date;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -26,10 +35,13 @@ public class Tp1IotReader {
     private Item tags[];
     private int numTags;
     
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss");
+    
     /**
      * @return the ipLeitor
      */
     public String getIpLeitor() {
+    	
         return ipLeitor;
     }
 
@@ -101,7 +113,9 @@ public class Tp1IotReader {
      * @return retorna um lista do tipo tag
      * @throws AlienReaderException 
      */
-    public void lerAtivamente() throws AlienReaderException{
+    public void lerAtivamente() throws AlienReaderException, IOException {
+    	
+    	this.gravarLog();
         
         AlienClass1Reader reader = new AlienClass1Reader();
         //reader.setConnection("COM1");
@@ -115,7 +129,7 @@ public class Tp1IotReader {
         reader.open();
         
         // Set string format
- 		String customFormatStr = "Tag:${TAGID}, Last:${MSEC2}, RSSI=${RSSI}, Speed:${SPEED}, Reads:${COUNT}";
+ 		String customFormatStr = "Tag:${TAGID}, Last:${MSEC2}, RSSI=${RSSI}, Speed:${SPEED}, Reads:${COUNT}, Ant:%a";
  		reader.setTagListFormat(AlienClass1Reader.CUSTOM_FORMAT);
  		reader.setTagListCustomFormat(customFormatStr);
  		reader.setNotifyTrigger("OFF");
@@ -187,11 +201,28 @@ public class Tp1IotReader {
     public Tp1IotReader()  {
             
     }
-
     
-    public void gravarLog(){
-        //TODO
-    }
+    public void gravarLog()
+    	throws IOException {
+    		
+//    		BufferedWriter writer = new BufferedWriter(new FileWriter(caminholog + "rfid.log"));
+//    		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//    		
+//    		System.out.println(timestamp);
+    		
+//    		String output = "";
+    		
+//			for(Item tag : tags) {
+				
+//				output = timestamp + ';' + tag.id + ';' + tag.last + ';' + tag.rssi + ';' + tag.speed + ';' + tag.reads + ';' + tag.reads + '\n';	
+//            }
+			
+//			System.out.println(timestamp);
+
+    		
+//    		outputStream.write()
+    		
+	}
     
     public void pararLeitoraPassiva(){
         //TODO

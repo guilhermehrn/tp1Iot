@@ -1,6 +1,9 @@
 package rfidLeitor;
 
 import com.alien.enterpriseRFID.reader.AlienReaderException;
+
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -18,13 +21,17 @@ import javax.swing.JLabel;
  * @author guilhermehenrique
  */
 public class Tp1IotMainJFrame extends javax.swing.JFrame {
-
+	
+	
+	Tp1IotReader reader;
+	javax.swing.table.DefaultTableModel model;
+	DialogConfig dialogConfig;
+	
     /**
      * Creates new form tp1IotMainJFrame
      */
     public Tp1IotMainJFrame() {
         initComponents();
-        
     }
 
     /**
@@ -53,10 +60,16 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         buttonCancel = new javax.swing.JButton();
         buttonParar = new javax.swing.JButton();
         buttonConfig = new javax.swing.JButton();
-
+        model = new javax.swing.table.DefaultTableModel(new String[] {"ID",
+        		"Distância Máxima ", "Taxa de Leitura (Min)", "Taxa de Leitura (Max)", "Taxa de Leitura (Media)", "Desvio Padrão"}, 0);
+        reader = new Tp1IotReader();
+        dialogConfig = new DialogConfig(this, true);
+        
         jInternalFrame1.setVisible(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        
+        this.reader.setCaminholog(dialogConfig.getLogDir());
 
         labelModo.setText("Modo:");
 
@@ -86,27 +99,10 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         });
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        tableData.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"000",  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0)},
-                {"000",  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0)},
-                {"000",  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0)},
-                {"000",  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0)}
-            },
-            new String [] {
-                "ID", "Distância Máxima ", "Taxa de Leitura (Min)", "Taxa de Leitura (Max)", "Taxa de Leitura (Media)", "Desvio Padrão"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)); 
+        
+        tableData.setModel(model);
+        
         jScrollPane1.setViewportView(tableData);
 
         jLabel1.setText("INTERNET DAS COISAS - TRABALHO PRÁTICO 1 ");
@@ -120,7 +116,12 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         buttonInciar.setText("Inciar");
         buttonInciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonInciarActionPerformed(evt);
+                try {
+					buttonInciarActionPerformed(evt);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jLayeredPane2.add(buttonInciar);
@@ -225,21 +226,23 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboBoxEfeitoActionPerformed
 
-    private void buttonInciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInciarActionPerformed
+    private void buttonInciarActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_buttonInciarActionPerformed
         // TODO add your handling code here:
+    	
         try {
-        	Tp1IotReader reader = new Tp1IotReader();
-            reader.lerAtivamente();
-            Item[] tags = reader.getResults();
+        	
+            this.reader.lerAtivamente();
+            Item[] tags = this.reader.getResults();
             
-            int numTags = reader.numTags();
-            int i = 0;
+            int numTags = this.reader.numTags();
+
             for(Item tag : tags) {
-            	tableData.setValueAt(tag.id, i, 0);
-            	tableData.setValueAt(tag.reads, i, 4);
-            	i++;
+            	
+            	this.model.addRow(new Object[] {tag.id, tag.last, tag.rssi, tag.speed, tag.reads, tag.reads });
+            	
             }
         } catch (AlienReaderException e) {
+        	
             System.out.println("Error: " + e.toString());
         }
     }//GEN-LAST:event_buttonInciarActionPerformed
@@ -257,58 +260,15 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonPararActionPerformed
 
     private void buttonConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConfigActionPerformed
-//      
-    DialogConfig a = new DialogConfig(this, true);
-    a.setVisible(true);
-    a.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-//JFrame.setDefaultLookAndFeelDecorated(true);
-//    JFrame frame = new JFrame();
-//    frame.setTitle("My First Swing Application");
-//    JLabel label = new JLabel("Welcome");
-//    frame.add(label);
-//    frame.pack();
-//    frame.setVisible(true);
+   
+	    dialogConfig.setVisible(true);
+	    dialogConfig.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-    }//GEN-LAST:event_buttonConfigActionPerformed
+    }
 
     /**
      * @param args the command line arguments
      */
-    
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(Tp1IotMainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(Tp1IotMainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(Tp1IotMainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(Tp1IotMainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Tp1IotMainJFrame().setVisible(true);
-//            }
-//        });
-//    }
-   
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonConfig;
