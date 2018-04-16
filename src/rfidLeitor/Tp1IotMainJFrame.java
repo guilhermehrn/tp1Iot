@@ -61,7 +61,11 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         buttonParar = new javax.swing.JButton();
         buttonConfig = new javax.swing.JButton();
         model = new javax.swing.table.DefaultTableModel(new String[] {"ID",
-        		"Distância Máxima ", "Taxa de Leitura (Min)", "Taxa de Leitura (Max)", "Taxa de Leitura (Media)", "Desvio Padrão"}, 0);
+        															  "Antena",
+        															  "Taxa de Leitura (Média)",
+        															  "Distância Real",
+        															  "Distância Estimada",
+        															  "RSSI"}, 0);
         reader = new Tp1IotReader();
         dialogConfig = new DialogConfig(this, true);
         
@@ -88,6 +92,9 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
                 comboBoxEfeitoActionPerformed(evt);
             }
         });
+        
+        this.reader.setEfeito("Nenhum");
+        this.reader.setModo("Ativo");
 
         labelTimeOut.setText("Time out");
 
@@ -113,7 +120,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 
         jLayeredPane2.setLayout(new java.awt.GridLayout(1, 0));
 
-        buttonInciar.setText("Inciar");
+        buttonInciar.setText("Iniciar");
         buttonInciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
@@ -126,7 +133,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         });
         jLayeredPane2.add(buttonInciar);
 
-        buttonCancel.setText("Cancela");
+        buttonCancel.setText("Cancelar");
         buttonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonCancelActionPerformed(evt);
@@ -219,11 +226,15 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void comboBoxModoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxModoActionPerformed
-        // TODO add your handling code here:
+    	
+    	reader.setModo(comboBoxModo.getSelectedItem().toString());
+
     }//GEN-LAST:event_comboBoxModoActionPerformed
 
     private void comboBoxEfeitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxEfeitoActionPerformed
-        // TODO add your handling code here:
+    	
+    	reader.setEfeito(comboBoxEfeito.getSelectedItem().toString());
+        
     }//GEN-LAST:event_comboBoxEfeitoActionPerformed
 
     private void buttonInciarActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_buttonInciarActionPerformed
@@ -234,13 +245,23 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
             this.reader.lerAtivamente();
             Item[] tags = this.reader.getResults();
             
-            int numTags = this.reader.numTags();
-
-            for(Item tag : tags) {
+            int numTags  = this.reader.numTags();
+            int rowCount = this.model.getRowCount();
+            
+            for (int i = 0; i < rowCount; i++) {
             	
-            	this.model.addRow(new Object[] {tag.id, tag.last, tag.rssi, tag.speed, tag.reads, tag.reads });
+            	this.model.removeRow(0);
             	
             }
+            
+            this.model.fireTableStructureChanged();
+            
+            for(Item tag : tags) {
+            	
+            	this.model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
+            	
+            }
+            
         } catch (AlienReaderException e) {
         	
             System.out.println("Error: " + e.toString());

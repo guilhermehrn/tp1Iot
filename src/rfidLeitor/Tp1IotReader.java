@@ -34,8 +34,37 @@ public class Tp1IotReader {
     private int readTime = 5; // segundos
     private Item tags[];
     private int numTags;
+    private String modo;
+    private String efeito;
+    private String distancia;
     
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss");
+    public String getDistancia() {
+		return distancia;
+	}
+
+	public void setDistancia(String distancia) {
+		this.distancia = distancia;
+	}
+
+    public void setModo(String __modo){
+    	
+    	this.modo = __modo;
+    }
+    
+    public String getModo(){
+    	
+    	return modo;
+    }
+    
+    public void setEfeito(String __efeito){
+    	
+    	this.efeito = __efeito;
+    }
+    
+    public String getEfeito() {
+    	
+    	return efeito;
+    }
     
     /**
      * @return the ipLeitor
@@ -114,8 +143,6 @@ public class Tp1IotReader {
      * @throws AlienReaderException 
      */
     public void lerAtivamente() throws AlienReaderException, IOException {
-    	
-    	this.gravarLog();
         
         AlienClass1Reader reader = new AlienClass1Reader();
         //reader.setConnection("COM1");
@@ -149,7 +176,8 @@ public class Tp1IotReader {
 		
 		// Read tags for X seconds
 		long startTime = System.currentTimeMillis();
-		while(false||(System.currentTimeMillis()-startTime)<5000) {
+		
+		while (false || (System.currentTimeMillis() - startTime) < (readTime * 1000)) {
 			// Read
 			commandOut = reader.doReaderCommand("t");
 			str = reader.getReaderReply();
@@ -168,10 +196,15 @@ public class Tp1IotReader {
 			}
 		}
 		
-		// Calc Reads/sec
+		// Calc Statistics
 		for(Item tag : tags) {
+			
 			tag.reads = tag.reads/readTime;
-		}
+			
+//			tag.distanceReal = Float.parseFloat(this.distancia);
+			
+		} 
+		
 		
 		// Results
 		/*for(int i = 0; i < numTags; i++) {
@@ -181,8 +214,11 @@ public class Tp1IotReader {
 		// Set string format back
 		reader.setTagListFormat(AlienClass1Reader.XML_FORMAT);
 		
+
 		// Close the connection
         reader.close();
+        
+        this.gravarLog();
         
     }
     
@@ -205,23 +241,28 @@ public class Tp1IotReader {
     public void gravarLog()
     	throws IOException {
     		
-//    		BufferedWriter writer = new BufferedWriter(new FileWriter(caminholog + "rfid.log"));
-//    		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//    		
-//    		System.out.println(timestamp);
+    		BufferedWriter writer = new BufferedWriter(new FileWriter(caminholog + "rfid.log", true));
+    		String timestamp = new Timestamp(System.currentTimeMillis()).toString();
     		
-//    		String output = "";
+    		String output = "";
     		
-//			for(Item tag : tags) {
+			for(Item tag : tags) {
 				
-//				output = timestamp + ';' + tag.id + ';' + tag.last + ';' + tag.rssi + ';' + tag.speed + ';' + tag.reads + ';' + tag.reads + '\n';	
-//            }
-			
-//			System.out.println(timestamp);
-
+				output = output + 
+						 timestamp + ';' +
+						 tag.id + ';' + 
+						 tag.last + ';' + 
+						 tag.rssi + ';' + 
+						 tag.speed + ';' + 
+						 tag.reads + ';' + 
+						 tag.reads + ';' + 
+						 modo + ';' +
+						 efeito + ';' +
+						 distancia + '\n';
+            }
     		
-//    		outputStream.write()
-    		
+    		writer.append(output);
+    		writer.close();
 	}
     
     public void pararLeitoraPassiva(){

@@ -32,6 +32,7 @@ public class DialogConfig extends javax.swing.JDialog {
      * Creates new form NovoOkCancelDialog
      */
     public DialogConfig(java.awt.Frame parent, boolean modal) {
+    	
         super(parent, modal);
         initComponents();
 
@@ -40,6 +41,7 @@ public class DialogConfig extends javax.swing.JDialog {
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), cancelName);
         ActionMap actionMap = getRootPane().getActionMap();
+        
         actionMap.put(cancelName, new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 doClose(RET_CANCEL);

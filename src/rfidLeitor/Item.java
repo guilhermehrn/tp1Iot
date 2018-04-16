@@ -10,7 +10,9 @@ public class Item {
 		rssi    = Float.parseFloat(fields[2].substring(5));
 		speed   = Float.parseFloat(fields[3].substring(6));
 		reads   = Float.parseFloat(fields[4].substring(6));
-		antenna = fields[5].substring(4);
+		antenna = fields[5].substring(4,5);
+		distanceEst = 0;
+		distanceReal = 0;
 	}
 	
 	String id      = "";
@@ -19,4 +21,6 @@ public class Item {
 	float  speed   = 0;
 	float  reads   = 0;
 	String antenna = "";
+	float distanceEst = 0;
+	float distanceReal = 0;
 }
