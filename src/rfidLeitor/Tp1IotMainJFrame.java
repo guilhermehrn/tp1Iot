@@ -56,7 +56,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLayeredPane2 = new javax.swing.JLayeredPane();
-        buttonInciar = new javax.swing.JButton();
+        buttonIniciar = new javax.swing.JButton();
         buttonCancel = new javax.swing.JButton();
         buttonParar = new javax.swing.JButton();
         buttonConfig = new javax.swing.JButton();
@@ -122,18 +122,18 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 
         jLayeredPane2.setLayout(new java.awt.GridLayout(1, 0));
 
-        buttonInciar.setText("Iniciar");
-        buttonInciar.addActionListener(new java.awt.event.ActionListener() {
+        buttonIniciar.setText("Iniciar");
+        buttonIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-					buttonInciarActionPerformed(evt);
+					buttonIniciarActionPerformed(evt);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             }
         });
-        jLayeredPane2.add(buttonInciar);
+        jLayeredPane2.add(buttonIniciar);
 
         buttonCancel.setText("Cancelar");
         buttonCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -238,75 +238,103 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_comboBoxEfeitoActionPerformed
 
-    private void buttonInciarActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_buttonInciarActionPerformed
+    private void buttonIniciarActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_buttonIniciarActionPerformed
         // TODO add your handling code here:
     	
-        try {
-        	
-        	if (this.comboBoxModo.getSelectedItem().toString() == "Ativo") {
-        		
-        		this.reader.lerAtivamente();
-                Item[] tags = this.reader.getResults();
-                
-                int numTags  = this.reader.numTags();
-                int rowCount = this.model.getRowCount();
-                
-                for (int i = 0; i < rowCount; i++) {
-                	
-                	this.model.removeRow(0);
-                	
-                }
-                
-                this.model.fireTableStructureChanged();
-                
-                for(Item tag : tags) {
-                	
-                	this.model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
-                	
-                }
-                
-        	} else {
-        		
-        		long timeout = Long.parseLong(this.textfieldTimeOut.getText());
-        		
-        		if (!this.textfieldTimeOut.getText().isEmpty() &&  timeout > 0) {
-        			
-//        			this.reader.lerPassivamente(Long.parseLong(this.textfieldTimeOut.getText()), this.model);
-        			long startTimeUser = System.currentTimeMillis();
-        			
-        			while ((System.currentTimeMillis() - startTimeUser) < (timeout * 1000)){
-        				
-        				this.reader.lerAtivamente();
-                        Item[] tags = this.reader.getResults();
-                        
-                        int numTags  = this.reader.numTags();
-                        int rowCount = this.model.getRowCount();
-                        
-                        for (int i = 0; i < rowCount; i++) {
-                        	
-                        	this.model.removeRow(0);
-                        	
-                        }
-                        
-                        for(Item tag : tags) {
-                        	
-                        	this.model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
-                        	
-                        }
-                        
-                        this.model.fireTableStructureChanged();
-        			}
-        		}
-        	}
-            
-        } catch (AlienReaderException e) {
-        	
-            System.out.println("Error: " + e.toString());
-        }
-    }//GEN-LAST:event_buttonInciarActionPerformed
+        if (this.comboBoxModo.getSelectedItem().toString() == "Ativo") {
+			
+			Thread t = new Thread() {
+				
+				public void run() {
+		    		buttonIniciar.setEnabled(false);
+		    		
+		    		try {
+						reader.lerAtivamente();
+					} catch (AlienReaderException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+		    		
+		            Item[] tags = reader.getResults();
+		            
+		            int numTags  = reader.numTags();
+		            int rowCount = model.getRowCount();
+		            
+		            for (int i = 0; i < rowCount; i++) {
+		            	
+		            	model.removeRow(0);
+		            	
+		            }
+		            
+		            model.fireTableStructureChanged();
+		            
+		            for(Item tag : tags) {
+		            	
+		            	model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
+		            	
+		            }
+		            
+		            buttonIniciar.setEnabled(true);
+				}
+			};
+			t.start();
+		    
+		} else {
+			
+			Thread t = new Thread() {
+				public void run() {
+					
+					buttonIniciar.setEnabled(false);
+					
+		    		long timeout = Long.parseLong(textfieldTimeOut.getText());
+		    		
+		    		if (!textfieldTimeOut.getText().isEmpty() &&  timeout > 0) {
+
+		    			long startTimeUser = System.currentTimeMillis();
+		    			
+		    			while ((System.currentTimeMillis() - startTimeUser) < (timeout * 1000)){
+		    				
+		    				try {
+								reader.lerAtivamente();
+							} catch (AlienReaderException e) {
+								e.printStackTrace();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+		    				
+		                    Item[] tags = reader.getResults();
+		                    
+		                    int numTags  = reader.numTags();
+		                    int rowCount = model.getRowCount();
+		                    
+		                    for (int i = 0; i < rowCount; i++) {
+		                    	
+		                    	model.removeRow(0);
+		                    	
+		                    }
+		                    
+		                    model.fireTableStructureChanged();
+		                    
+		                    for(Item tag : tags) {
+		                    	
+		                    	model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
+		                    	
+		                    }
+		          
+		    			}
+		    		}
+		    		
+		    		buttonIniciar.setEnabled(true);
+				}
+			};
+			t.start();
+			
+		}
+    }//GEN-LAST:event_buttonIniciarActionPerformed
 
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {
-    	
+    	System.exit(0);
     }
 
     private void textfieldTimeOutActionPerformed(java.awt.event.ActionEvent evt) {
@@ -330,7 +358,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonConfig;
-    private javax.swing.JButton buttonInciar;
+    private javax.swing.JButton buttonIniciar;
     private javax.swing.JButton buttonParar;
     private javax.swing.JComboBox<String> comboBoxEfeito;
     private javax.swing.JComboBox<String> comboBoxModo;
