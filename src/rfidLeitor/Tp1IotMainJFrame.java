@@ -31,6 +31,8 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
      * Creates new form tp1IotMainJFrame
      */
     public Tp1IotMainJFrame() throws AlienReaderException {
+    	reader = new Tp1IotReader();
+    	
         initComponents();
     }
 
@@ -66,7 +68,6 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         															  "Distância Real",
         															  "Distância Estimada",
         															  "RSSI"}, 0);
-        reader = new Tp1IotReader();
         dialogConfig = new DialogConfig(this, true);
         
         jInternalFrame1.setVisible(true);
@@ -127,7 +128,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
 					buttonIniciarActionPerformed(evt);
-				} catch (IOException e) {
+				} catch (IOException | AlienReaderException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -238,11 +239,17 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_comboBoxEfeitoActionPerformed
 
-    private void buttonIniciarActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_buttonIniciarActionPerformed
+    private void buttonIniciarActionPerformed(java.awt.event.ActionEvent evt) throws IOException, AlienReaderException {//GEN-FIRST:event_buttonIniciarActionPerformed
         // TODO add your handling code here:
+    	reader.setCaminholog(dialogConfig.getjTextFieldLog().getText());
+    	reader.setIpLeitor(dialogConfig.getjTextFieldIp().getText());
+    	reader.setUsernameLeitor(dialogConfig.getjTextFieldUser().getText());
+    	reader.setPassWordLeitor(dialogConfig.getjPasswordFieldPass().getText());
     	
         if (this.comboBoxModo.getSelectedItem().toString() == "Ativo") {
-			
+        	
+        	reader.setPortaLeitor(Integer.parseInt(dialogConfig.getjTextFieldActPort().getText()));
+        	
 			Thread t = new Thread() {
 				
 				public void run() {

@@ -58,12 +58,12 @@ public class DialogConfig extends javax.swing.JDialog {
     
     public String getLogDir(){
     	
-    	return jTextField5.getText();
+    	return jTextFieldLog.getText();
     }
     
     public void setLogDir(String t) {
     	
-    	jTextField5.setText(t);
+    	jTextFieldLog.setText(t);
     }
 
     /**
@@ -83,12 +83,12 @@ public class DialogConfig extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jTextField5 = new javax.swing.JTextField();
+        jTextFieldIp = new javax.swing.JTextField();
+        jTextFieldActPort = new javax.swing.JTextField();
+        jTextFieldAutoPort = new javax.swing.JTextField();
+        jTextFieldUser = new javax.swing.JTextField();
+        jPasswordFieldPass = new javax.swing.JPasswordField();
+        jTextFieldLog = new javax.swing.JTextField();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         buttonSalvarConfig = new javax.swing.JToggleButton();
         buttonCancelarConfig = new javax.swing.JToggleButton();
@@ -162,10 +162,10 @@ public class DialogConfig extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(23, 6, 0, 0);
         getContentPane().add(jLabel7, gridBagConstraints);
 
-        jTextField1.setText("150.164.10.41");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldIp.setText("150.164.10.41");
+        jTextFieldIp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextFieldIpActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -176,9 +176,9 @@ public class DialogConfig extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 300;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(18, 3, 0, 0);
-        getContentPane().add(jTextField1, gridBagConstraints);
+        getContentPane().add(jTextFieldIp, gridBagConstraints);
 
-        jTextField2.setText("23");
+        jTextFieldActPort.setText("23");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 3;
@@ -187,9 +187,9 @@ public class DialogConfig extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 80;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 4, 0, 0);
-        getContentPane().add(jTextField2, gridBagConstraints);
+        getContentPane().add(jTextFieldActPort, gridBagConstraints);
 
-        jTextField3.setText("4000");
+        jTextFieldAutoPort.setText("4000");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 5;
@@ -198,9 +198,9 @@ public class DialogConfig extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 80;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 18, 0, 0);
-        getContentPane().add(jTextField3, gridBagConstraints);
+        getContentPane().add(jTextFieldAutoPort, gridBagConstraints);
 
-        jTextField4.setText("Alien");
+        jTextFieldUser.setText("alien");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 7;
@@ -209,9 +209,9 @@ public class DialogConfig extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 190;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 18, 0, 0);
-        getContentPane().add(jTextField4, gridBagConstraints);
+        getContentPane().add(jTextFieldUser, gridBagConstraints);
 
-        jPasswordField1.setText("password");
+        jPasswordFieldPass.setText("password");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 9;
@@ -220,9 +220,9 @@ public class DialogConfig extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 131;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        getContentPane().add(jPasswordField1, gridBagConstraints);
+        getContentPane().add(jPasswordFieldPass, gridBagConstraints);
 
-        jTextField5.setText("/tmp/");
+        jTextFieldLog.setText("/tmp/");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 11;
@@ -231,9 +231,14 @@ public class DialogConfig extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 645;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(18, 17, 0, 0);
-        getContentPane().add(jTextField5, gridBagConstraints);
+        getContentPane().add(jTextFieldLog, gridBagConstraints);
 
         buttonSalvarConfig.setText("Salvar");
+        buttonSalvarConfig.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(java.awt.event.ActionEvent evt) {
+        		buttonSalvarConfigActionPerformed(evt);
+        	}
+        });
 
         buttonCancelarConfig.setText("Cancelar");
         buttonCancelarConfig.addActionListener(new java.awt.event.ActionListener() {
@@ -283,12 +288,75 @@ public class DialogConfig extends javax.swing.JDialog {
         doClose(RET_CANCEL);
     }//GEN-LAST:event_closeDialog
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextFieldIpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldIpActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextFieldIpActionPerformed
+    
+    private void buttonSalvarConfigActionPerformed(java.awt.event.ActionEvent evt) {
+    	jTextFieldIp.setText(jTextFieldIp.getText());
+        jTextFieldActPort.setText(jTextFieldActPort.getText());
+        jTextFieldAutoPort.setText(jTextFieldAutoPort.getText());
+        jTextFieldUser.setText(jTextFieldUser.getText());
+        jTextFieldLog.setText(jTextFieldLog.getText());
+        
+        jPasswordFieldPass.setText(jPasswordFieldPass.getText());
+        
+        setVisible(false);
+    	dispose();
+    }
 
-    private void buttonCancelarConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarConfigActionPerformed
+    public javax.swing.JPasswordField getjPasswordFieldPass() {
+		return jPasswordFieldPass;
+	}
+
+	public void setjPasswordFieldPass(javax.swing.JPasswordField jPasswordFieldPass) {
+		this.jPasswordFieldPass = jPasswordFieldPass;
+	}
+
+	public javax.swing.JTextField getjTextFieldIp() {
+		return jTextFieldIp;
+	}
+
+	public void setjTextFieldIp(javax.swing.JTextField jTextFieldIp) {
+		this.jTextFieldIp = jTextFieldIp;
+	}
+
+	public javax.swing.JTextField getjTextFieldActPort() {
+		return jTextFieldActPort;
+	}
+
+	public void setjTextFieldActPort(javax.swing.JTextField jTextFieldActPort) {
+		this.jTextFieldActPort = jTextFieldActPort;
+	}
+
+	public javax.swing.JTextField getjTextFieldAutoPort() {
+		return jTextFieldAutoPort;
+	}
+
+	public void setjTextFieldAutoPort(javax.swing.JTextField jTextFieldAutoPort) {
+		this.jTextFieldAutoPort = jTextFieldAutoPort;
+	}
+
+	public javax.swing.JTextField getjTextFieldUser() {
+		return jTextFieldUser;
+	}
+
+	public void setjTextFieldUser(javax.swing.JTextField jTextFieldUser) {
+		this.jTextFieldUser = jTextFieldUser;
+	}
+
+	public javax.swing.JTextField getjTextFieldLog() {
+		return jTextFieldLog;
+	}
+
+	public void setjTextFieldLog(javax.swing.JTextField jTextFieldLog) {
+		this.jTextFieldLog = jTextFieldLog;
+	}
+
+	private void buttonCancelarConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarConfigActionPerformed
         // TODO add your handling code here:
+    	setVisible(false);
+    	dispose();
     }//GEN-LAST:event_buttonCancelarConfigActionPerformed
     
     private void doClose(int retStatus) {
@@ -351,12 +419,12 @@ public class DialogConfig extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JPasswordField jPasswordFieldPass;
+    private javax.swing.JTextField jTextFieldIp;
+    private javax.swing.JTextField jTextFieldActPort;
+    private javax.swing.JTextField jTextFieldAutoPort;
+    private javax.swing.JTextField jTextFieldUser;
+    private javax.swing.JTextField jTextFieldLog;
     // End of variables declaration//GEN-END:variables
 
     private int returnStatus = RET_CANCEL;

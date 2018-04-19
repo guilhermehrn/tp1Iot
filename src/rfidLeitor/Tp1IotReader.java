@@ -45,12 +45,6 @@ public class Tp1IotReader {
     	
     	reader = new AlienClass1Reader();
     	
-    	// To connect to a networked reader instead, use the following:
-        reader.setConnection(this.getIpLeitor(), this.getPortaLeitor());
-        reader.setUsername(this.getUsernameLeitor());
-        reader.setPassword(this.getPassWordLeitor());
-    	
-        reader.open();
     }
     
     public float getTimeout() {
@@ -166,6 +160,13 @@ public class Tp1IotReader {
      * @throws AlienReaderException 
      */
     public void lerAtivamente() throws AlienReaderException, IOException {
+    	// Set connection
+    	// To connect to a networked reader instead, use the following:
+        reader.setConnection(this.getIpLeitor(), this.getPortaLeitor());
+        reader.setUsername(this.getUsernameLeitor());
+        reader.setPassword(this.getPassWordLeitor());
+    	
+        reader.open();
 
         // Set string format
  		String customFormatStr = "Tag:${TAGID}, Last:${MSEC2}, RSSI=${RSSI}, Speed:${SPEED}, Reads:${COUNT}, Ant:%a";
@@ -209,25 +210,18 @@ public class Tp1IotReader {
 		}
 		
 		// Calc Statistics
-//		for(Item tag : tags) {
-//			
-//			tag.reads = tag.reads/readTime;
-//			
-//			tag.distanceReal = Float.parseFloat(this.distancia);
-//			
-//		} 
-		// Results
-		/*for(int i = 0; i < numTags; i++) {
-			System.out.print(tags[i].id + ", " + tags[i].rssi + ", " + tags[i].speed + ", " + tags[i].reads + "\n");
-		}*/
+		for(Item tag : tags) {
+		
+			tag.reads = tag.reads/readTime;
+			
+		} 
 		
 		// Set string format back
 		reader.setTagListFormat(AlienClass1Reader.XML_FORMAT);
-
-		// Close the connection
-//        reader.close();
         
         this.gravarLog();
+        
+        reader.close();
     }
     
     public Item[] getResults() {
