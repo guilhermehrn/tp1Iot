@@ -294,7 +294,11 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 					
 					buttonIniciar.setEnabled(false);
 					
-		    		long timeout = Long.parseLong(textfieldTimeOut.getText());
+					try {
+						reader.lerAuto();
+					} catch (IOException | AlienReaderException | InterruptedException e) {}
+					
+		    		/*long timeout = Long.parseLong(textfieldTimeOut.getText());
 		    		
 		    		if (!textfieldTimeOut.getText().isEmpty() &&  timeout > 0) {
 
@@ -331,6 +335,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 		          
 		    			}
 		    		}
+		    		*/
 		    		
 		    		buttonIniciar.setEnabled(true);
 				}

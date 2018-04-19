@@ -5,9 +5,14 @@ package rfidLeitor;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.sql.Timestamp;
 import java.util.Date;
+
+import com.alien.enterpriseRFID.notify.Message;
+import com.alien.enterpriseRFID.notify.MessageListener;
+import com.alien.enterpriseRFID.notify.MessageListenerService;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,7 +28,7 @@ import com.alien.enterpriseRFID.tags.*;
  *
  * @author guilhermehenrique
  */
-public class Tp1IotReader {
+public class Tp1IotReader implements MessageListener {
     
     private String ipLeitor = "150.164.10.41";
     private int portaLeitor = 23;
@@ -232,83 +237,50 @@ public class Tp1IotReader {
     	return numTags;
     }
     
-    public void lerPassivamente(long __timeout) throws AlienReaderException, IOException {
-
-//    	
-//    	// To connect to a networked reader instead, use the following:
-//        reader.setConnection(this.getIpLeitor(), this.getPortaLeitor());
-//        reader.setUsername(this.getUsernameLeitor());
-//        reader.setPassword(this.getPassWordLeitor());
-//
-//        // Open a connection to the reader
-//        reader.open();
-//        
-//        // Set string format
-// 		String customFormatStr = "Tag:${TAGID}, Last:${MSEC2}, RSSI=${RSSI}, Speed:${SPEED}, Reads:${COUNT}, Ant:%a";
-// 		reader.setTagListFormat(AlienClass1Reader.CUSTOM_FORMAT);
-// 		reader.setTagListCustomFormat(customFormatStr);
-// 		reader.setNotifyTrigger("OFF");
-// 		
-// 		long startTimeUser = System.currentTimeMillis();
-// 		
-// 		while ((System.currentTimeMillis() - startTimeUser) < (__timeout * 1000)){
-// 			
-// 	 		// Read tags
-// 			String commandOut = reader.doReaderCommand("t");
-// 			String str = reader.getReaderReply();
-// 			
-// 			// Get ids and init values
-// 			String lines[] = str.split("\n");
-// 			numTags = lines.length;
-// 			tags = new Item[numTags];
-// 			
-// 			for(int i = 0; i < numTags; i++) {
-// 				tags[i] = new Item(lines[i]);
-// 			}
-// 			
-// 			// Read tags for X seconds
-// 			long startTime = System.currentTimeMillis();
-// 			
-// 			while ((System.currentTimeMillis() - startTime) < (readTime * 1000)) {
-// 				// Read
-// 				commandOut = reader.doReaderCommand("t");
-// 				str = reader.getReaderReply();
-// 				
-// 				// Get ids
-// 				String items[] = str.split("\n");
-// 				for(String tag : items) {
-// 					String fields[] = tag.split(", ");
-// 					String id = fields[0].substring(4);
-// 					
-// 					for(int i = 0; i < numTags; i++) {
-// 						if(tags[i].id.equals(id)) {
-// 							tags[i].reads++;
-// 						}
-// 					}
-// 				}
-// 			}
-// 		}
-//		
-//		// Calc Statistics
-//		for(Item tag : tags) {
-//			
-//			tag.reads = tag.reads/readTime;
-//			
-////			tag.distanceReal = Float.parseFloat(this.distancia);
-//			
-//		}
-//		
-//		// Set string format back
-//		reader.setTagListFormat(AlienClass1Reader.XML_FORMAT);
-//
-//		// Close the connection
-//        reader.close();
-//        
-//        this.gravarLog();
-//    	
+    public void lerAuto() throws IOException, AlienReaderException, InterruptedException {
+    	// Set connection
+    	// To connect to a networked reader instead, use the following:
+    	System.out.println("Hello");
     	
+        reader.setConnection(this.getIpLeitor(), this.getPortaLeitor());
+        reader.setUsername(this.getUsernameLeitor());
+        reader.setPassword(this.getPassWordLeitor());
+    	
+        reader.open();
+        
+        // Set up the message listener service
+        MessageListenerService service = new MessageListenerService(4000);
+        service.setMessageListener(service);
+        service.startService();
+        System.out.println("Message Listener has Started");
+        
+        reader.setNotifyAddress(InetAddress.getLocalHost().getHostAddress(), service.getListenerPort());
+        reader.setNotifyFormat(AlienClass1Reader.XML_FORMAT); // Make sure service can decode it.
+        reader.setNotifyTrigger("TrueFalse"); // Notify whether there's a tag or not
+        reader.setNotifyMode(AlienClass1Reader.ON);
+        
+        // Set up AutoMode
+        reader.autoModeReset();
+        reader.setAutoStopTimer(1000); // Read for 1 second
+        reader.setAutoMode(AlienClass1Reader.ON);
+        
+        // Close the connection and spin while messages arrive
+        reader.close();
+        long runTime = 10000; // milliseconds
+        long startTime = System.currentTimeMillis();
+        do {
+          Thread.sleep(1000);
+        } while(service.isRunning() && (System.currentTimeMillis()-startTime) < runTime);
+        
+        // Reconnect to the reader and turn off AutoMode and TagStreamMode.
+        System.out.println("\nResetting Reader");
+        reader.open();
+        reader.autoModeReset();
+        reader.setNotifyMode(AlienClass1Reader.OFF);
+        reader.close();
+        
+        service.getMessageListener();
     }
-
     
     public void gravarLog()
     	throws IOException {
@@ -340,5 +312,11 @@ public class Tp1IotReader {
     public void pararLeitoraPassiva(){
         //TODO
     }
+
+	@Override
+	public void messageReceived(Message arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
