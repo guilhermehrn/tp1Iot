@@ -62,6 +62,8 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         buttonCancel = new javax.swing.JButton();
         buttonParar = new javax.swing.JButton();
         buttonConfig = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        distancia = new javax.swing.JTextField();
         model = new javax.swing.table.DefaultTableModel(new String[] {"ID",
         															  "Antena",
         															  "Taxa de Leitura (Média)",
@@ -159,6 +161,16 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Distancia (M)");
+
+        distancia.setText("1");
+        
+        distancia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	distanciaOutActionPerformed(evt);
+            }
+        });
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -182,10 +194,14 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
                             .addGap(49, 49, 49)
                             .addComponent(labelTimeOut)
                             .addGap(29, 29, 29)
-                            .addComponent(textfieldTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(53, 53, 53)
-                            .addComponent(buttonParar)
+                            .addComponent(textfieldTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(35, 35, 35)
+                            .addComponent(jLabel4)
+                            .addGap(29, 29, 29)
+                            .addComponent(distancia, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buttonParar)
+                            .addGap(35, 35, 35)
                             .addComponent(buttonConfig))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1175, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
@@ -215,7 +231,10 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(labelTimeOut))
-                    .addComponent(textfieldTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(textfieldTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(distancia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(buttonParar)
                         .addComponent(buttonConfig)))
@@ -245,6 +264,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     	reader.setIpLeitor(dialogConfig.getjTextFieldIp().getText());
     	reader.setUsernameLeitor(dialogConfig.getjTextFieldUser().getText());
     	reader.setPassWordLeitor(dialogConfig.getjPasswordFieldPass().getText());
+    	reader.setDistancia(distancia.getText());
     	
         if (this.comboBoxModo.getSelectedItem().toString() == "Ativo") {
         	
@@ -352,6 +372,10 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     private void textfieldTimeOutActionPerformed(java.awt.event.ActionEvent evt) {
     		
     }
+    
+    private void distanciaOutActionPerformed(java.awt.event.ActionEvent evt) {
+		
+    }
 
     private void buttonPararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPararActionPerformed
         // TODO add your handling code here:
@@ -385,5 +409,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel labelTimeOut;
     private javax.swing.JTable tableData;
     private javax.swing.JTextField textfieldTimeOut;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JTextField distancia;
     // End of variables declaration//GEN-END:variables
 }
