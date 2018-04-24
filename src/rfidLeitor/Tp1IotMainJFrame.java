@@ -43,7 +43,8 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() throws AlienReaderException {
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jInternalFrame1 = new javax.swing.JInternalFrame();
         labelModo = new javax.swing.JLabel();
@@ -62,30 +63,43 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         buttonCancel = new javax.swing.JButton();
         buttonParar = new javax.swing.JButton();
         buttonConfig = new javax.swing.JButton();
-        model = new javax.swing.table.DefaultTableModel(new String[] {"ID",
-        															  "Antena",
-        															  "Taxa de Leitura (Média)",
-        															  "Distância Real",
-        															  "Distância Estimada",
-        															  "RSSI"}, 0);
-        dialogConfig = new DialogConfig(this, true);
-        
+        jLabel4 = new javax.swing.JLabel();
+        textFieldDistancia = new javax.swing.JTextField();
+
         jInternalFrame1.setVisible(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        
-        this.reader.setCaminholog(dialogConfig.getLogDir());
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         labelModo.setText("Modo:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(23, 14, 0, 0);
+        getContentPane().add(labelModo, gridBagConstraints);
 
-        comboBoxModo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Autônomo" }));
+        comboBoxModo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "autonomo" }));
         comboBoxModo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxModoActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(19, 18, 0, 0);
+        getContentPane().add(comboBoxModo, gridBagConstraints);
 
         labelEfeito.setText("Efeito:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(23, 21, 0, 0);
+        getContentPane().add(labelEfeito, gridBagConstraints);
 
         comboBoxEfeito.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nenhum", "Água", "Metal" }));
         comboBoxEfeito.addActionListener(new java.awt.event.ActionListener() {
@@ -93,50 +107,111 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
                 comboBoxEfeitoActionPerformed(evt);
             }
         });
-        
-        this.reader.setEfeito("Nenhum");
-        this.reader.setModo("Ativo");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 11, 0, 0);
+        getContentPane().add(comboBoxEfeito, gridBagConstraints);
 
-        labelTimeOut.setText("Time out (s)");
-        
-        this.reader.setTimeout(0);
+        labelTimeOut.setText("Time out");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(24, 35, 0, 0);
+        getContentPane().add(labelTimeOut, gridBagConstraints);
 
-        textfieldTimeOut.setText("60");
+        textfieldTimeOut.setToolTipText("");
         textfieldTimeOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textfieldTimeOutActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.ipadx = 70;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(19, 18, 0, 0);
+        getContentPane().add(textfieldTimeOut, gridBagConstraints);
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)); 
-        
-        tableData.setModel(model);
-        
+        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        tableData.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"000",  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0)}
+            },
+            new String [] {
+                "ID", "Distância Máxima ", "Taxa de Leitura (Min)", "Taxa de Leitura (Max)", "Taxa de Leitura (Media)", "Desvio Padrão"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tableData);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 13;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 1148;
+        gridBagConstraints.ipady = 321;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(49, 14, 0, 17);
+        getContentPane().add(jScrollPane1, gridBagConstraints);
+
         jLabel1.setText("INTERNET DAS COISAS - TRABALHO PRÁTICO 1 ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 14, 0, 0);
+        getContentPane().add(jLabel1, gridBagConstraints);
 
         jLabel2.setText("MEDIÇÕES DE RFID - ALIEN 9650");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 14, 0, 0);
+        getContentPane().add(jLabel2, gridBagConstraints);
 
         jLabel3.setText("GRUPO: Andre, Guilherme Henrique e Gilson");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 14, 0, 0);
+        getContentPane().add(jLabel3, gridBagConstraints);
 
         jLayeredPane2.setLayout(new java.awt.GridLayout(1, 0));
 
-        buttonIniciar.setText("Iniciar");
+        buttonIniciar.setText("Inciar");
+        buttonIniciar.setActionCommand("Iniciar");
         buttonIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-					buttonIniciarActionPerformed(evt);
-				} catch (IOException | AlienReaderException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                buttonIniciarActionPerformed(evt);
             }
         });
         jLayeredPane2.add(buttonIniciar);
 
-        buttonCancel.setText("Cancelar");
+        buttonCancel.setText("Cancela");
         buttonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonCancelActionPerformed(evt);
@@ -144,12 +219,29 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         });
         jLayeredPane2.add(buttonCancel);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 13;
+        gridBagConstraints.ipadx = 989;
+        gridBagConstraints.ipady = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 14, 27, 17);
+        getContentPane().add(jLayeredPane2, gridBagConstraints);
+
         buttonParar.setText("Parar");
         buttonParar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonPararActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 58, 0, 0);
+        getContentPane().add(buttonParar, gridBagConstraints);
 
         buttonConfig.setText("Configuração");
         buttonConfig.setToolTipText("");
@@ -158,77 +250,35 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
                 buttonConfigActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 87, 0, 17);
+        getContentPane().add(buttonConfig, gridBagConstraints);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(labelModo)
-                            .addGap(18, 18, 18)
-                            .addComponent(comboBoxModo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(52, 52, 52)
-                            .addComponent(labelEfeito)
-                            .addGap(43, 43, 43)
-                            .addComponent(comboBoxEfeito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(49, 49, 49)
-                            .addComponent(labelTimeOut)
-                            .addGap(29, 29, 29)
-                            .addComponent(textfieldTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(53, 53, 53)
-                            .addComponent(buttonParar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(buttonConfig))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1175, javax.swing.GroupLayout.PREFERRED_SIZE))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addGap(6, 6, 6)
-                .addComponent(jLabel2)
-                .addGap(6, 6, 6)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(labelModo))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(comboBoxModo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(labelEfeito))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(comboBoxEfeito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(labelTimeOut))
-                    .addComponent(textfieldTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(buttonParar)
-                        .addComponent(buttonConfig)))
-                .addGap(49, 49, 49)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        jLabel4.setText("Distancia:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(24, 62, 0, 0);
+        getContentPane().add(jLabel4, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.ipadx = 70;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(19, 12, 0, 0);
+        getContentPane().add(textFieldDistancia, gridBagConstraints);
 
         setBounds(0, 0, 1206, 636);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void comboBoxModoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxModoActionPerformed
+    private void comboBoxModoActionPerformed(java.awt.event.ActionEvent evt) {                                             
     	
     	reader.setModo(comboBoxModo.getSelectedItem().toString());
     }
@@ -357,7 +407,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonPararActionPerformed
 
-    private void buttonConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConfigActionPerformed
+    private void buttonConfigActionPerformed(java.awt.event.ActionEvent evt) {                                             
    
 	    dialogConfig.setVisible(true);
 	    dialogConfig.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -378,12 +428,14 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelEfeito;
     private javax.swing.JLabel labelModo;
     private javax.swing.JLabel labelTimeOut;
     private javax.swing.JTable tableData;
+    private javax.swing.JTextField textFieldDistancia;
     private javax.swing.JTextField textfieldTimeOut;
     // End of variables declaration//GEN-END:variables
 }
