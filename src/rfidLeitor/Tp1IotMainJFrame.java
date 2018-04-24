@@ -43,7 +43,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() throws AlienReaderException {
+    private void initComponents() {
 
         jInternalFrame1 = new javax.swing.JInternalFrame();
         labelModo = new javax.swing.JLabel();
@@ -62,23 +62,16 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         buttonCancel = new javax.swing.JButton();
         buttonParar = new javax.swing.JButton();
         buttonConfig = new javax.swing.JButton();
-        model = new javax.swing.table.DefaultTableModel(new String[] {"ID",
-        															  "Antena",
-        															  "Taxa de Leitura (Média)",
-        															  "Distância Real",
-        															  "Distância Estimada",
-        															  "RSSI"}, 0);
-        dialogConfig = new DialogConfig(this, true);
-        
+        jLabel4 = new javax.swing.JLabel();
+        distancia = new javax.swing.JTextField();
+
         jInternalFrame1.setVisible(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        
-        this.reader.setCaminholog(dialogConfig.getLogDir());
 
         labelModo.setText("Modo:");
 
-        comboBoxModo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Autônomo" }));
+        comboBoxModo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "autonomo" }));
         comboBoxModo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxModoActionPerformed(evt);
@@ -93,15 +86,10 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
                 comboBoxEfeitoActionPerformed(evt);
             }
         });
-        
-        this.reader.setEfeito("Nenhum");
-        this.reader.setModo("Ativo");
 
-        labelTimeOut.setText("Time out (s)");
-        
-        this.reader.setTimeout(0);
+        labelTimeOut.setText("Time out");
 
-        textfieldTimeOut.setText("60");
+        textfieldTimeOut.setToolTipText("");
         textfieldTimeOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textfieldTimeOutActionPerformed(evt);
@@ -109,10 +97,24 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         });
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)); 
-        
-        tableData.setModel(model);
-        
+        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        tableData.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"000",  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0),  new Float(0.0)}
+            },
+            new String [] {
+                "ID", "Distância Máxima ", "Taxa de Leitura (Min)", "Taxa de Leitura (Max)", "Taxa de Leitura (Media)", "Desvio Padrão"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tableData);
 
         jLabel1.setText("INTERNET DAS COISAS - TRABALHO PRÁTICO 1 ");
@@ -123,20 +125,15 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 
         jLayeredPane2.setLayout(new java.awt.GridLayout(1, 0));
 
-        buttonIniciar.setText("Iniciar");
+        buttonIniciar.setText("Inciar");
         buttonIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-					buttonIniciarActionPerformed(evt);
-				} catch (IOException | AlienReaderException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                buttonIniciarActionPerformed(evt);
             }
         });
         jLayeredPane2.add(buttonIniciar);
 
-        buttonCancel.setText("Cancelar");
+        buttonCancel.setText("Cancela");
         buttonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonCancelActionPerformed(evt);
@@ -158,6 +155,10 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
                 buttonConfigActionPerformed(evt);
             }
         });
+
+        jLabel4.setText("Distancia (M)");
+
+        distancia.setText("1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,10 +183,14 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
                             .addGap(49, 49, 49)
                             .addComponent(labelTimeOut)
                             .addGap(29, 29, 29)
-                            .addComponent(textfieldTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(53, 53, 53)
-                            .addComponent(buttonParar)
+                            .addComponent(textfieldTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(35, 35, 35)
+                            .addComponent(jLabel4)
+                            .addGap(29, 29, 29)
+                            .addComponent(distancia, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buttonParar)
+                            .addGap(35, 35, 35)
                             .addComponent(buttonConfig))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1175, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
@@ -215,7 +220,10 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(labelTimeOut))
-                    .addComponent(textfieldTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(textfieldTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(distancia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(buttonParar)
                         .addComponent(buttonConfig)))
@@ -228,7 +236,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         setBounds(0, 0, 1206, 636);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void comboBoxModoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxModoActionPerformed
+    private void comboBoxModoActionPerformed(java.awt.event.ActionEvent evt) {                                             
     	
     	reader.setModo(comboBoxModo.getSelectedItem().toString());
     }
@@ -357,7 +365,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonPararActionPerformed
 
-    private void buttonConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConfigActionPerformed
+    private void buttonConfigActionPerformed(java.awt.event.ActionEvent evt) {                                             
    
 	    dialogConfig.setVisible(true);
 	    dialogConfig.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -374,10 +382,12 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonParar;
     private javax.swing.JComboBox<String> comboBoxEfeito;
     private javax.swing.JComboBox<String> comboBoxModo;
+    private javax.swing.JTextField distancia;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelEfeito;

@@ -54,11 +54,15 @@
                           <Component id="comboBoxEfeito" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="49" pref="49" max="-2" attributes="0"/>
                           <Component id="labelTimeOut" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="29" pref="29" max="-2" attributes="0"/>
-                          <Component id="textfieldTimeOut" min="-2" pref="228" max="-2" attributes="0"/>
-                          <EmptySpace min="53" pref="53" max="-2" attributes="0"/>
-                          <Component id="buttonParar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                          <Component id="textfieldTimeOut" min="-2" pref="106" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                          <Component id="distancia" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
+                          <Component id="buttonParar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="buttonConfig" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane1" min="-2" pref="1175" max="-2" attributes="0"/>
@@ -98,7 +102,11 @@
                       <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
                       <Component id="labelTimeOut" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="textfieldTimeOut" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="textfieldTimeOut" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="distancia" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="buttonParar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="buttonConfig" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -238,12 +246,12 @@
         <Property name="rows" type="int" value="1"/>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="buttonInciar">
+        <Component class="javax.swing.JButton" name="buttonIniciar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Inciar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonInciarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonIniciarActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="buttonCancel">
@@ -272,6 +280,16 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonConfigActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Distancia (M)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="distancia">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="1"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
