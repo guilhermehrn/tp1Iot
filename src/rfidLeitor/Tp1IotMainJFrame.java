@@ -115,7 +115,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(20, 11, 0, 0);
         getContentPane().add(comboBoxEfeito, gridBagConstraints);
 
-        labelTimeOut.setText("Time out");
+        labelTimeOut.setText("Time out (s)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 3;
@@ -124,7 +124,8 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(24, 35, 0, 0);
         getContentPane().add(labelTimeOut, gridBagConstraints);
 
-        textfieldTimeOut.setToolTipText("2");
+        textfieldTimeOut.setText("2");
+        textfieldTimeOut.setToolTipText("");
         textfieldTimeOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textfieldTimeOutActionPerformed(evt);
@@ -206,15 +207,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         buttonIniciar.setActionCommand("Iniciar");
         buttonIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-					buttonIniciarActionPerformed(evt);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (AlienReaderException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                buttonIniciarActionPerformed(evt);
             }
         });
         jLayeredPane2.add(buttonIniciar);
@@ -231,6 +224,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 13;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 989;
         gridBagConstraints.ipady = 14;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -266,7 +260,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(18, 87, 0, 17);
         getContentPane().add(buttonConfig, gridBagConstraints);
 
-        jLabel4.setText("Distancia:");
+        jLabel4.setText("Distancia (m):");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 9;
         gridBagConstraints.gridy = 3;
@@ -274,6 +268,13 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(24, 62, 0, 0);
         getContentPane().add(jLabel4, gridBagConstraints);
+
+        textFieldDistancia.setText("1");
+        textFieldDistancia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldDistanciaActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 3;
@@ -415,6 +416,10 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     private void buttonPararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPararActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonPararActionPerformed
+
+    private void textFieldDistanciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldDistanciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFieldDistanciaActionPerformed
 
     private void buttonConfigActionPerformed(java.awt.event.ActionEvent evt) {                                             
    
