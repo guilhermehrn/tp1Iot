@@ -124,7 +124,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(24, 35, 0, 0);
         getContentPane().add(labelTimeOut, gridBagConstraints);
 
-        textfieldTimeOut.setToolTipText("");
+        textfieldTimeOut.setToolTipText("2");
         textfieldTimeOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textfieldTimeOutActionPerformed(evt);
@@ -303,6 +303,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
     	reader.setIpLeitor(dialogConfig.getjTextFieldIp().getText());
     	reader.setUsernameLeitor(dialogConfig.getjTextFieldUser().getText());
     	reader.setPassWordLeitor(dialogConfig.getjPasswordFieldPass().getText());
+    	reader.setDistancia(this.textFieldDistancia.getText());
     	
         if (this.comboBoxModo.getSelectedItem().toString() == "Ativo") {
         	
