@@ -32,6 +32,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
      */
     public Tp1IotMainJFrame() throws AlienReaderException {
     	reader = new Tp1IotReader();
+    	dialogConfig= new DialogConfig(null, false);
     	
         initComponents();
     }
@@ -207,7 +208,15 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         buttonIniciar.setActionCommand("Iniciar");
         buttonIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonIniciarActionPerformed(evt);
+                try {
+					buttonIniciarActionPerformed(evt);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (AlienReaderException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jLayeredPane2.add(buttonIniciar);
@@ -260,7 +269,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(18, 87, 0, 17);
         getContentPane().add(buttonConfig, gridBagConstraints);
 
-        jLabel4.setText("Distancia (m):");
+        jLabel4.setText("Distância (m):");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 9;
         gridBagConstraints.gridy = 3;
@@ -300,11 +309,13 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 
     private void buttonIniciarActionPerformed(java.awt.event.ActionEvent evt) throws IOException, AlienReaderException {//GEN-FIRST:event_buttonIniciarActionPerformed
         // TODO add your handling code here:
+    	
+    	System.out.println(textFieldDistancia.getText());
     	reader.setCaminholog(dialogConfig.getjTextFieldLog().getText());
     	reader.setIpLeitor(dialogConfig.getjTextFieldIp().getText());
     	reader.setUsernameLeitor(dialogConfig.getjTextFieldUser().getText());
     	reader.setPassWordLeitor(dialogConfig.getjPasswordFieldPass().getText());
-    	reader.setDistancia(this.textFieldDistancia.getText());
+    	reader.setDistancia(textFieldDistancia.getText());
     	
         if (this.comboBoxModo.getSelectedItem().toString() == "Ativo") {
         	
