@@ -1,6 +1,11 @@
 package rfidLeitor;
 
 public class Item {
+	Item(String _id, int _count) {
+		id		= _id;
+		count 	= _count;
+	}
+	
 	Item(String str) {
 		
 		String fields[] = str.split(", ");
@@ -23,4 +28,22 @@ public class Item {
 	String antenna = "";
 	float distanceEst = 0;
 	float distanceReal = 0;
+	
+	int count = 0;
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public String getId() {
+		return this.id;
+	}
+	
+	public void addToCount(int count) {
+		this.count += count;
+	}
+	
+	public int getCount() {
+		return this.count;
+	}
 }

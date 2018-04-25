@@ -315,47 +315,12 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 					buttonIniciar.setEnabled(false);
 					
 					try {
+						reader.setTimeout(Float.parseFloat(textfieldTimeOut.getText()));
+						reader.setPortaAuto(Float.parseFloat(dialogConfig.getjTextFieldAutoPort().getText()));
 						reader.lerAuto();
-					} catch (IOException | AlienReaderException | InterruptedException e) {}
-					
-		    		/*long timeout = Long.parseLong(textfieldTimeOut.getText());
-		    		
-		    		if (!textfieldTimeOut.getText().isEmpty() &&  timeout > 0) {
-
-		    			long startTimeUser = System.currentTimeMillis();
-		    			
-		    			while ((System.currentTimeMillis() - startTimeUser) < (timeout * 1000)){
-		    				
-		    				try {
-								reader.lerAtivamente();
-							} catch (AlienReaderException e) {
-								e.printStackTrace();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-		    				
-		                    Item[] tags = reader.getResults();
-		                    
-		                    int numTags  = reader.numTags();
-		                    int rowCount = model.getRowCount();
-		                    
-		                    for (int i = 0; i < rowCount; i++) {
-		                    	
-		                    	model.removeRow(0);
-		                    	
-		                    }
-		                    
-		                    model.fireTableStructureChanged();
-		                    
-		                    for(Item tag : tags) {
-		                    	
-		                    	model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
-		                    	
-		                    }
-		          
-		    			}
-		    		}
-		    		*/
+					} catch (AlienReaderException | IOException | InterruptedException e) {
+						e.printStackTrace();
+					}
 		    		
 		    		buttonIniciar.setEnabled(true);
 				}

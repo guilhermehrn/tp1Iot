@@ -43,6 +43,7 @@ public class Tp1IotReader implements MessageListener {
     private String efeito;
     private String distancia;
     private float timeout;
+    private float autoPort;
     
     AlienClass1Reader reader;
     
@@ -144,6 +145,14 @@ public class Tp1IotReader implements MessageListener {
     public void setPassWordLeitor(String passWordLeitor) {
         this.passWordLeitor = passWordLeitor;
     }
+    
+    public void setPortaAuto(float port) {
+    	this.autoPort = port;
+    }
+    
+    public float getPortaAuto() {
+    	return this.autoPort;
+    }
 
     /**
      * @return the caminholog
@@ -240,46 +249,59 @@ public class Tp1IotReader implements MessageListener {
     public void lerAuto() throws IOException, AlienReaderException, InterruptedException {
     	// Set connection
     	// To connect to a networked reader instead, use the following:
-    	System.out.println("Hello");
+    	String myIp = "150.164.0.246";
     	
-        reader.setConnection(this.getIpLeitor(), this.getPortaLeitor());
-        reader.setUsername(this.getUsernameLeitor());
-        reader.setPassword(this.getPassWordLeitor());
-    	
-        reader.open();
-        
-        // Set up the message listener service
-        MessageListenerService service = new MessageListenerService(4000);
-        service.setMessageListener(service);
-        service.startService();
-        System.out.println("Message Listener has Started");
-        
-        reader.setNotifyAddress(InetAddress.getLocalHost().getHostAddress(), service.getListenerPort());
-        reader.setNotifyFormat(AlienClass1Reader.XML_FORMAT); // Make sure service can decode it.
-        reader.setNotifyTrigger("TrueFalse"); // Notify whether there's a tag or not
-        reader.setNotifyMode(AlienClass1Reader.ON);
-        
-        // Set up AutoMode
-        reader.autoModeReset();
-        reader.setAutoStopTimer(1000); // Read for 1 second
-        reader.setAutoMode(AlienClass1Reader.ON);
-        
-        // Close the connection and spin while messages arrive
-        reader.close();
-        long runTime = 10000; // milliseconds
-        long startTime = System.currentTimeMillis();
-        do {
-          Thread.sleep(1000);
-        } while(service.isRunning() && (System.currentTimeMillis()-startTime) < runTime);
-        
-        // Reconnect to the reader and turn off AutoMode and TagStreamMode.
-        System.out.println("\nResetting Reader");
-        reader.open();
-        reader.autoModeReset();
-        reader.setNotifyMode(AlienClass1Reader.OFF);
-        reader.close();
-        
-        service.getMessageListener();
+    	MessageListenerService service = new MessageListenerService((int) this.getPortaAuto());
+    	  service.setMessageListener(this);
+    	  service.startService();
+    	  System.out.println("Message Listener has Started");
+
+    	  // Instantiate a new reader object, and open a connection to it on COM1
+    	  AlienClass1Reader reader = new AlienClass1Reader();
+    	  reader.setConnection(this.getIpLeitor(), this.getPortaLeitor());
+    	  reader.setUsername(this.getUsernameLeitor());
+    	  reader.setPassword(this.getPassWordLeitor());
+    	  
+    	  reader.open();
+    	  System.out.println("Configuring Reader");
+
+    	  // Set up Notification.
+    	  // Use this host's IPAddress, and the port number that the service is listening on.
+    	  // getHostAddress() may find a wrong (wireless) Ethernet interface, so you may
+    	  // need to substitute your computers IP address manually.
+    	  reader.setNotifyAddress(myIp, service.getListenerPort());
+    	  reader.setNotifyFormat(AlienClass1Reader.XML_FORMAT); // Make sure service can decode it.
+    	  reader.setNotifyTrigger("False"); // Notify whether there's a tag or not
+    	  reader.setNotifyMode(AlienClass1Reader.ON);
+
+    	  // Set up AutoMode
+    	  reader.autoModeReset();
+    	  reader.setAutoStopTimer((int) this.getTimeout()*1000); // Read for 1 second
+    	  reader.setAutoMode(AlienClass1Reader.ON);
+
+    	  // Close the connection and spin while messages arrive
+    	  reader.close();
+    	  long runTime = (long) this.getTimeout()*1000; // milliseconds
+    	  long startTime = System.currentTimeMillis();
+    	  do {
+    	    Thread.sleep(1000);
+    	  } while(service.isRunning() && (System.currentTimeMillis()-startTime) < runTime);
+    	  
+    	  // Reconnect to the reader and turn off AutoMode and TagStreamMode.
+    	  System.out.println("\nResetting Reader");
+    	  reader.open();
+    	  reader.autoModeReset();
+    	  reader.setNotifyMode(AlienClass1Reader.OFF);
+    	  reader.close();
+    	  
+    	  service.stopService();
+    	  
+    	  for(Item t : tags) {
+    		  t.reads = (float) (t.getCount() * 1.0 / this.getTimeout());
+    		  System.out.print(t.getId() + ", reads/s = " + t.reads);
+    	  }
+    	  
+    	  this.gravarLog();
     }
     
     public void gravarLog()
@@ -299,7 +321,6 @@ public class Tp1IotReader implements MessageListener {
 						 tag.rssi + ';' + 
 						 tag.speed + ';' + 
 						 tag.reads + ';' + 
-						 tag.reads + ';' + 
 						 modo + ';' +
 						 efeito + ';' +
 						 distancia + '\n';
@@ -314,9 +335,26 @@ public class Tp1IotReader implements MessageListener {
     }
 
 	@Override
-	public void messageReceived(Message arg0) {
-		// TODO Auto-generated method stub
-		
+	public void messageReceived(Message msg) {
+	  if (msg.getTagCount() != 0 && numTags == 0) {
+		  tags = new Item[msg.getTagCount()];
+		  numTags = msg.getTagCount();
+		  
+		  for(int i = 0; i < msg.getTagCount(); i++) {
+			  Tag tag = msg.getTag(i);
+			  tags[i] = new Item(tag.getTagID(), tag.getRenewCount());
+		  }
+	  } else if (msg.getTagCount() != 0 && numTags > 0){
+	    for (int i = 0; i < msg.getTagCount(); i++) {
+	      Tag tag = msg.getTag(i);
+	      
+	      for(Item t : tags) {
+	    	  if(tag.getTagID().equals(t.getId())) {
+	    		  t.addToCount(tag.getRenewCount());
+	    	  }
+	      }
+	    }
+	  }
 	}
 }
 

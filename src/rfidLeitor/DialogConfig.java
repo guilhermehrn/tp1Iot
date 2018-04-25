@@ -298,6 +298,7 @@ public class DialogConfig extends javax.swing.JDialog {
         jTextFieldAutoPort.setText(jTextFieldAutoPort.getText());
         jTextFieldUser.setText(jTextFieldUser.getText());
         jTextFieldLog.setText(jTextFieldLog.getText());
+        jTextFieldAutoPort.setText(jTextFieldAutoPort.getText());
         
         jPasswordFieldPass.setText(jPasswordFieldPass.getText());
         
