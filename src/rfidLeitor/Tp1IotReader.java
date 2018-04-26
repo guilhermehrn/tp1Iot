@@ -249,7 +249,7 @@ public class Tp1IotReader implements MessageListener {
     public void lerAuto() throws IOException, AlienReaderException, InterruptedException {
     	// Set connection
     	// To connect to a networked reader instead, use the following:
-    	String myIp = "150.164.0.246";
+    	String myIp = "150.164.10.33";
     	
     	MessageListenerService service = new MessageListenerService((int) this.getPortaAuto());
     	  service.setMessageListener(this);
@@ -296,9 +296,8 @@ public class Tp1IotReader implements MessageListener {
     	  
     	  service.stopService();
     	  
-    	  for(Item t : tags) {
-    		  t.reads = (float) (t.getCount() * 1.0 / this.getTimeout());
-    		  System.out.print(t.getId() + ", reads/s = " + t.reads);
+    	  for(int i = 0; i < numTags; i++) {
+    		  tags[i].reads = tags[i].count / this.getTimeout();
     	  }
     	  
     	  this.gravarLog();
@@ -315,15 +314,16 @@ public class Tp1IotReader implements MessageListener {
 			for(Item tag : tags) {
 				
 				output = output + 
-						 timestamp + ';' +
-						 tag.id + ';' + 
-						 tag.last + ';' + 
-						 tag.rssi + ';' + 
-						 tag.speed + ';' + 
-						 tag.reads + ';' + 
-						 modo + ';' +
-						 efeito + ';' +
-						 distancia + '\n';
+						 timestamp 		+ ';' +
+						 tag.id 		+ ';' + 
+						 tag.last 		+ ';' + 
+						 tag.rssi 		+ ';' + 
+						 tag.speed 		+ ';' + 
+						 tag.reads 		+ ';' + 
+						 tag.antenna 	+ ';' +
+						 modo 			+ ';' +
+						 efeito 		+ ';' +
+						 distancia 		+ '\n';
             }
     		
     		writer.append(output);
@@ -343,14 +343,15 @@ public class Tp1IotReader implements MessageListener {
 		  for(int i = 0; i < msg.getTagCount(); i++) {
 			  Tag tag = msg.getTag(i);
 			  tags[i] = new Item(tag.getTagID(), tag.getRenewCount());
+			  tags[i].antenna = Integer.toString(tag.getAntenna());
 		  }
 	  } else if (msg.getTagCount() != 0 && numTags > 0){
 	    for (int i = 0; i < msg.getTagCount(); i++) {
 	      Tag tag = msg.getTag(i);
 	      
-	      for(Item t : tags) {
-	    	  if(tag.getTagID().equals(t.getId())) {
-	    		  t.addToCount(tag.getRenewCount());
+	      for(int j = 0; j < tags.length; j++) {
+	    	  if(tag.getTagID().equals(tags[i].getId()) && tags[i].antenna.equals(Integer.toString(tag.getAntenna()))) {
+	    		  tags[i].addToCount(tag.getRenewCount());
 	    	  }
 	      }
 	    }

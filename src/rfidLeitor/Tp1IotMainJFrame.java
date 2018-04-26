@@ -317,7 +317,24 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 					try {
 						reader.setTimeout(Float.parseFloat(textfieldTimeOut.getText()));
 						reader.setPortaAuto(Float.parseFloat(dialogConfig.getjTextFieldAutoPort().getText()));
-						reader.lerAuto();
+						
+			            int rowCount = model.getRowCount();
+			            for (int i = 0; i < rowCount; i++) {
+			            	
+			            	model.removeRow(0);
+			            	
+			            }
+			            
+			            reader.lerAuto();
+			            
+			            Item[] tags = reader.getResults();
+			            int numTags  = reader.numTags();
+			            
+						for(Item tag : tags) {
+			            	
+			            	model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
+			            	
+			            }
 					} catch (AlienReaderException | IOException | InterruptedException e) {
 						e.printStackTrace();
 					}
