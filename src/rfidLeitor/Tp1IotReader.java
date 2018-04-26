@@ -38,7 +38,7 @@ public class Tp1IotReader implements MessageListener {
     
     private int readTime = 5; // segundos
     private Item tags[];
-    private int numTags;
+    public int numTags;
     private String modo;
     private String efeito;
     private String distancia;
@@ -250,7 +250,7 @@ public class Tp1IotReader implements MessageListener {
     public void lerAuto() throws IOException, AlienReaderException, InterruptedException {
     	// Set connection
     	// To connect to a networked reader instead, use the following:
-    	String myIp = "150.164.10.33";
+    	String myIp = "150.164.0.242";
     	
     	MessageListenerService service = new MessageListenerService((int) this.getPortaAuto());
     	  service.setMessageListener(this);
@@ -327,7 +327,7 @@ public class Tp1IotReader implements MessageListener {
 						 efeito 		+ ';' +
 						 distancia 		+ '\n';
             }
-    		
+			
     		writer.append(output);
     		writer.close();
 	}
@@ -341,7 +341,7 @@ public class Tp1IotReader implements MessageListener {
 	  if (msg.getTagCount() != 0 && numTags == 0) {
 		  tags = new Item[msg.getTagCount()];
 		  numTags = msg.getTagCount();
-		  
+	
 		  for(int i = 0; i < msg.getTagCount(); i++) {
 			  Tag tag = msg.getTag(i);
 			  tags[i] = new Item(tag.getTagID(), tag.getRenewCount());

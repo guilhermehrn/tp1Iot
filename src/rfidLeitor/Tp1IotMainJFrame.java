@@ -302,6 +302,8 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 		            	
 		            }
 		            
+		            reader.numTags = 0;
+		            
 		            buttonIniciar.setEnabled(true);
 				}
 			};
@@ -340,6 +342,8 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 						e.printStackTrace();
 					}
 		    		
+					reader.numTags = 0;
+					
 		    		buttonIniciar.setEnabled(true);
 				}
 			};
