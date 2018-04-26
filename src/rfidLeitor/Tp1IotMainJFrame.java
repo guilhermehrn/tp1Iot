@@ -317,6 +317,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 					try {
 						reader.setTimeout(Float.parseFloat(textfieldTimeOut.getText()));
 						reader.setPortaAuto(Float.parseFloat(dialogConfig.getjTextFieldAutoPort().getText()));
+						reader.setDistancia(distancia.getText());
 						
 			            int rowCount = model.getRowCount();
 			            for (int i = 0; i < rowCount; i++) {

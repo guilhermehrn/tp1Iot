@@ -227,6 +227,7 @@ public class Tp1IotReader implements MessageListener {
 		for(Item tag : tags) {
 		
 			tag.reads = tag.reads/readTime;
+			tag.distanceReal = distancia;
 			
 		} 
 		
@@ -298,6 +299,7 @@ public class Tp1IotReader implements MessageListener {
     	  
     	  for(int i = 0; i < numTags; i++) {
     		  tags[i].reads = tags[i].count / this.getTimeout();
+    		  tags[i].distanceReal = distancia;
     	  }
     	  
     	  this.gravarLog();

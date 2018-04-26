@@ -17,7 +17,7 @@ public class Item {
 		reads   = Float.parseFloat(fields[4].substring(6));
 		antenna = fields[5].substring(4,5);
 		distanceEst = 0;
-		distanceReal = 0;
+		distanceReal = "0";
 	}
 	
 	String id      = "";
@@ -27,7 +27,7 @@ public class Item {
 	float  reads   = 0;
 	String antenna = "";
 	float distanceEst = 0;
-	float distanceReal = 0;
+	String distanceReal = "0";
 	
 	int count = 0;
 	
