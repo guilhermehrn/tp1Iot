@@ -28,6 +28,7 @@ public class Item {
 	String antenna = "";
 	float distanceEst = 0;
 	String distanceReal = "0";
+	float successRate = 0;
 	
 	int count = 0;
 	

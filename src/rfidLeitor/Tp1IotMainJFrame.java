@@ -67,6 +67,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
         model = new javax.swing.table.DefaultTableModel(new String[] {"ID",
         															  "Antena",
         															  "Taxa de Leitura (Média)",
+        															  "Taxa de sucesso", 
         															  "Distância Real",
         															  "Distância Estimada",
         															  "RSSI"}, 0);
@@ -298,7 +299,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 		            
 		            for(Item tag : tags) {
 		            	
-		            	model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
+		            	model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.successRate, tag.distanceReal, tag.distanceEst, tag.rssi });
 		            	
 		            }
 		            
@@ -335,7 +336,7 @@ public class Tp1IotMainJFrame extends javax.swing.JFrame {
 			            
 						for(Item tag : tags) {
 			            	
-			            	model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.distanceReal, tag.distanceEst, tag.rssi });
+			            	model.addRow(new Object[] {tag.id, tag.antenna, tag.reads, tag.successRate, tag.distanceReal, tag.distanceEst, tag.rssi });
 			            	
 			            }
 					} catch (AlienReaderException | IOException | InterruptedException e) {
