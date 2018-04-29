@@ -204,7 +204,7 @@ public class Tp1IotReader implements MessageListener {
 		// Read tags for X seconds
 		long startTime = System.currentTimeMillis();
 		
-		int count = 0;
+		int count = 1;
 		while (false || (System.currentTimeMillis() - startTime) < (readTime * 1000)) {
 			// Read
 			commandOut = reader.doReaderCommand("t");
@@ -215,9 +215,10 @@ public class Tp1IotReader implements MessageListener {
 			for(String tag : items) {
 				String fields[] = tag.split(", ");
 				String id = fields[0].substring(4);
+				String antenna = fields[5].substring(4,5);
 				
 				for(int i = 0; i < numTags; i++) {
-					if(tags[i].id.equals(id)) {
+					if(tags[i].id.equals(id) && tags[i].antenna.equals(antenna)) {
 						tags[i].reads++;
 					}
 				}
@@ -228,7 +229,7 @@ public class Tp1IotReader implements MessageListener {
 		
 		// Calc Statistics
 		for(Item tag : tags) {
-		
+			System.out.println("reads = " + tag.reads + ", count = " + count);
 			tag.successRate = tag.reads/count;
 			tag.reads = tag.reads/readTime;
 			tag.distanceReal = distancia;
@@ -254,7 +255,7 @@ public class Tp1IotReader implements MessageListener {
     public void lerAuto() throws IOException, AlienReaderException, InterruptedException {
     	// Set connection
     	// To connect to a networked reader instead, use the following:
-    	String myIp = "150.164.10.33";
+    	String myIp = "150.164.10.9";
     	
     	MessageListenerService service = new MessageListenerService((int) this.getPortaAuto());
     	  service.setMessageListener(this);
