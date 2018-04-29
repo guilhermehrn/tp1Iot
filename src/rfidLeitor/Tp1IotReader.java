@@ -229,7 +229,7 @@ public class Tp1IotReader implements MessageListener {
 		
 		// Calc Statistics
 		for(Item tag : tags) {
-			System.out.println("reads = " + tag.reads + ", count = " + count);
+			
 			tag.successRate = tag.reads/count;
 			tag.reads = tag.reads/readTime;
 			tag.distanceReal = distancia;
