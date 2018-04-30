@@ -213,13 +213,15 @@ public class Tp1IotReader implements MessageListener {
 			// Get ids
 			String items[] = str.split("\n");
 			for(String tag : items) {
-				String fields[] = tag.split(", ");
-				String id = fields[0].substring(4);
-				String antenna = fields[5].substring(4,5);
-				
-				for(int i = 0; i < numTags; i++) {
-					if(tags[i].id.equals(id) && tags[i].antenna.equals(antenna)) {
-						tags[i].reads++;
+				if(!tag.equals("(No Tags)")) {
+					String fields[] = tag.split(", ");
+					String id = fields[0].substring(4);
+					String antenna = fields[5].substring(4,5);
+					
+					for(int i = 0; i < numTags; i++) {
+						if(tags[i].id.equals(id) && tags[i].antenna.equals(antenna)) {
+							tags[i].reads++;
+						}
 					}
 				}
 			}
